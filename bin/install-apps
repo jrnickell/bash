@@ -1,0 +1,166 @@
+# !/bin/bash --login -x
+
+# home directory
+cd ~
+
+# repositories; hit [Enter] for each one to continue
+sudo add-apt-repository ppa:gnome3-team/gnome3
+sudo add-apt-repository ppa:webupd8team/sublime-text-2
+sudo add-apt-repository ppa:chris-lea/node.js
+
+# update packages
+sudo apt-get update
+
+# general utilities
+sudo apt-get install -y aptitude
+sudo apt-get install -y wget
+sudo apt-get install -y curl
+sudo apt-get install -y git
+sudo apt-get install -y vim
+sudo apt-get install -y cron
+
+# gnome desktop
+sudo apt-get install -y ubuntu-gnome-desktop
+sudo apt-get install -y ubuntu-gnome-default-settings
+sudo apt-get install -y gnome-documents
+sudo apt-get install -y gnome-boxes
+sudo apt-get remove -y ubuntu-settings
+sudo apt-get remove -y overlay-scrollbar*
+
+# sublime text
+sudo apt-get remove -y sublime-text*
+sudo apt-get install -y sublime-text
+
+# chromium
+sudo apt-get install -y chromium-browser
+
+# filezilla
+sudo apt-get install -y filezilla
+
+# fonts
+sudo apt-get install -y fonts-beteckna
+sudo apt-get install -y fonts-breip
+sudo apt-get install -y fonts-cabin
+sudo apt-get install -y fonts-cabinsketch
+sudo apt-get install -y fonts-cantarell
+sudo apt-get install -y fonts-catalogue
+sudo apt-get install -y fonts-comfortaa
+sudo apt-get install -y fonts-dancingscript
+sudo apt-get install -y fonts-deva-extra
+sudo apt-get install -y fonts-dkg-handwriting
+sudo apt-get install -y fonts-dosis
+sudo apt-get install -y fonts-droid
+sudo apt-get install -y fonts-dustin
+sudo apt-get install -y fonts-ecolier-court
+sudo apt-get install -y fonts-fanwood
+sudo apt-get install -y fonts-freefont-ttf
+sudo apt-get install -y fonts-inconsolata
+sudo apt-get install -y fonts-jura
+sudo apt-get install -y fonts-konatu
+sudo apt-get install -y fonts-larabie-deco
+sudo apt-get install -y fonts-larabie-straight
+sudo apt-get install -y fonts-larabie-uncommon
+sudo apt-get install -y fonts-lato
+sudo apt-get install -y fonts-liberation
+sudo apt-get install -y fonts-lindenhill
+sudo apt-get install -y fonts-linux
+sudo apt-get install -y fonts-linuxlibertine
+sudo apt-get install -y fonts-lobster
+sudo apt-get install -y fonts-lobstertwo
+sudo apt-get install -y fonts-quattrocento
+sudo apt-get install -y fonts-tomsontalks
+sudo apt-get install -y fonts-ubuntu-font-family-console
+sudo apt-get install -y fonts-ubuntu-title
+
+# apache
+sudo apt-get install -y apache2
+echo "ServerName localhost" | sudo tee /etc/apache2/conf.d/fqdn
+sudo a2enmod rewrite
+
+# php
+sudo apt-get install -y libapache2-mod-php5
+sudo apt-get install -y php5-dev
+
+# mysql
+sudo apt-get install -y mysql-server
+sudo apt-get install -y libapache2-mod-auth-mysql
+sudo apt-get install -y php5-mysql
+
+# phpmyadmin
+sudo apt-get install -y phpmyadmin
+
+# php extensions
+sudo apt-get install -y php-apc
+sudo apt-get install -y php5-intl
+
+# pear
+sudo apt-get install -y php-pear
+
+# composer
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+
+# phpunit, apigen, and phing
+pear config-set auto_discover 1
+sudo pear install --alldeps pear.phpunit.de/PHPUnit
+sudo pear install --alldeps pear.apigen.org/apigen
+sudo pear channel-discover pear.phing.info
+pear config-set preferred_state alpha
+sudo pear install --alldeps phing/phing
+pear config-set preferred_state stable
+
+# restart apache
+sudo /etc/init.d/apache2 restart
+
+# nodejs
+sudo apt-get install -y python-software-properties
+sudo apt-get install -y python
+sudo apt-get install -y g++
+sudo apt-get install -y make
+sudo apt-get install -y nodejs
+
+# ruby dependencies
+sudo apt-get install -y build-essential
+sudo apt-get install -y openssl
+sudo apt-get install -y libreadline6
+sudo apt-get install -y libreadline6-dev
+sudo apt-get install -y zlib1g
+sudo apt-get install -y zlib1g-dev
+sudo apt-get install -y libssl-dev
+sudo apt-get install -y libyaml-dev
+sudo apt-get install -y libsqlite3-dev
+sudo apt-get install -y sqlite3
+sudo apt-get install -y libxml2-dev
+sudo apt-get install -y libxslt1-dev
+sudo apt-get install -y autoconf
+sudo apt-get install -y libc6-dev
+sudo apt-get install -y libncurses5-dev
+sudo apt-get install -y automake
+sudo apt-get install -y libtool
+sudo apt-get install -y bison
+sudo apt-get install -y subversion
+sudo apt-get install -y pkg-config
+sudo apt-get install -y libmysqlclient-dev
+sudo apt-get install -y libpq-dev
+
+# rvm
+curl -L get.rvm.io | bash -s stable --auto 
+
+# reset bash
+. ~/.bash_profile
+
+# ruby
+rvm install 1.9.3
+rvm --default use 1.9.3
+
+# ruby on rails
+gem install rails -v 3.2.9
+
+# compass sass
+gem update --system
+gem install compass
+
+# cleanup
+sudo apt-get autoremove -y
+sudo apt-get update
+sudo apt-get upgrade -y

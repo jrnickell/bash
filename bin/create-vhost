@@ -1,0 +1,85 @@
+# !/bin/bash
+
+function make_index
+{
+cat <<- __EOF__
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<title>$project</title>
+	</head>
+	<body>
+	    <h2>Welcome to $dname</h2>
+	</body>
+	</html>
+__EOF__
+}
+
+function make_vhost
+{
+cat <<- __EOF__
+	<VirtualHost *:80>
+	    ServerAdmin webmaster@localhost
+		
+	    ServerName $dname
+	    ServerAlias www.$dname
+
+	    DirectoryIndex index.html index.htm index.php
+	    DocumentRoot /home/$USER/Projects/$project/$webroot
+
+	    <Directory /home/$USER/Projects/$project/$webroot/>
+	        Options Indexes FollowSymlinks MultiViews
+	        AllowOverride All
+	        Order allow,deny
+	        Allow from all
+	    </Directory>
+
+	    # Possible values include: debug, info, notice, warn, error, crit,
+	    # alert, emerg.
+	    LogLevel warn
+
+	    ErrorLog /home/$USER/Logs/$project/error.log
+	    CustomLog /home/$USER/Logs/$project/access.log combined
+	</VirtualHost>
+__EOF__
+}
+
+clear
+echo "Project Setup"
+
+echo -n "==> Enter new project name (eg: myproject): "
+read project
+
+echo -n "==> Enter new domain name (eg: myproject.dev): "
+read dname
+
+echo -n "==> Enter webroot folder name (eg: public): "
+read webroot
+
+clear
+echo "Setting up files for $project"
+
+mkdir -vp /home/$USER/Projects/$project/$webroot
+mkdir -vp /home/$USER/Logs/$project
+touch /home/$USER/Logs/$project/access.log
+echo "created /home/$USER/Logs/$project/access.log"
+touch /home/$USER/Logs/$project/error.log
+echo "created /home/$USER/Logs/$project/error.log"
+
+make_index > /home/$USER/Projects/$project/$webroot/index.html
+echo "created /home/$USER/Projects/$project/$webroot/index.html"
+
+make_vhost > /home/$USER/$project
+sudo mv /home/$USER/$project /etc/apache2/sites-available/$project
+echo "created /etc/apache2/sites-available/$project"
+
+sudo a2ensite $project
+
+sudo echo "127.0.0.1      $dname" | sudo tee -a /etc/hosts
+sudo echo "127.0.0.1      www.$dname" | sudo tee -a /etc/hosts
+
+sudo /etc/init.d/apache2 restart
+
+echo "$project is ready! Open a browser to $dname to test the new project"
+exit

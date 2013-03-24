@@ -1,0 +1,32 @@
+# !/bin/bash
+
+clear
+echo "Remove Project"
+
+echo -n "==> Enter the project name to remove (eg: myproject): "
+read project
+
+echo -n "==> Enter the domain name to remove (eg: myproject.dev): "
+read dname
+
+clear
+echo "Removing files for $project"
+
+sudo rm -r /home/$USER/Projects/$project
+echo "removed /home/$USER/Projects/$project"
+
+sudo rm -r /home/$USER/Logs/$project
+echo "removed /home/$USER/Logs/$project"
+
+sudo a2dissite $project
+
+sudo rm /etc/apache2/sites-available/$project
+echo "removed /etc/apache2/sites-available/$project"
+
+sudo sed -i "/$dname/ d" /etc/hosts
+sudo sed -i "/www.$dname/ d" /etc/hosts
+
+sudo /etc/init.d/apache2 restart
+
+echo "removed $project."
+exit
