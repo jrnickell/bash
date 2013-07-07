@@ -20,12 +20,8 @@ sudo apt-get install -y vim
 sudo apt-get install -y cron
 
 # gnome desktop
-sudo apt-get install -y ubuntu-gnome-desktop
-sudo apt-get install -y ubuntu-gnome-default-settings
-sudo apt-get install -y gnome-documents
-sudo apt-get install -y gnome-boxes
-sudo apt-get remove -y ubuntu-settings
-sudo apt-get remove -y overlay-scrollbar*
+sudo apt-get update
+sudo apt-get install gnome-shell ubuntu-gnome-desktop
 
 # sublime text
 sudo apt-get remove -y sublime-text*
