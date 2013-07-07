@@ -155,11 +155,11 @@ curl -L get.rvm.io | bash -s stable --auto
 . ~/.bash_profile
 
 # ruby
-rvm install 1.9.3
-rvm --default use 1.9.3
+rvm install 2.0.0
+rvm --default use 2.0.0
 
 # ruby on rails
-gem install rails -v 3.2.9
+gem install rails -v 4.0.0
 
 # compass sass
 gem update --system
