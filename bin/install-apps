@@ -20,8 +20,7 @@ sudo apt-get install -y vim
 sudo apt-get install -y cron
 
 # gnome desktop
-sudo apt-get update
-sudo apt-get install gnome-shell ubuntu-gnome-desktop
+sudo apt-get install -y gnome-shell ubuntu-gnome-desktop
 
 # sublime text
 sudo apt-get remove -y sublime-text*
