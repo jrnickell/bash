@@ -106,7 +106,7 @@ sudo pear install --alldeps pear.netpirates.net/phpDox
 pear config-set preferred_state stable
 
 # restart apache
-sudo /etc/init.d/apache2 restart
+sudo service apache2 restart
 
 # nodejs
 # now manually downloading and compiling from source
