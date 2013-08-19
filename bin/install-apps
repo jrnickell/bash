@@ -94,13 +94,15 @@ sudo apt-get install -y php-pear
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
-# phpunit, apigen, and phing
+# phpunit, apigen, phing, phpdox, and php qa tools
 pear config-set auto_discover 1
 sudo pear install --alldeps pear.phpunit.de/PHPUnit
 sudo pear install --alldeps pear.apigen.org/apigen
+sudo pear install --alldeps pear.phpqatools.org/phpqatools
 sudo pear channel-discover pear.phing.info
 pear config-set preferred_state alpha
 sudo pear install --alldeps phing/phing
+sudo pear install --alldeps pear.netpirates.net/phpDox
 pear config-set preferred_state stable
 
 # restart apache
