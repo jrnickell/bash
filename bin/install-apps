@@ -200,10 +200,10 @@ echo "root = /home/$USERNAME/.local/lib/node_modules" | tee -a ~/.npmrc
 echo "binroot = /home/$USERNAME/.local/bin" | tee -a ~/.npmrc
 echo "manroot = /home/$USERNAME/.local/share/man" | tee -a ~/.npmrc
 cd ~/.local
-wget "http://nodejs.org/dist/v0.10.18/node-v0.10.18.tar.gz"
-tar xf node-v0.10.18.tar.gz
-rm node-v0.10.18.tar.gz
-mv node-v0.10.18 node
+wget "http://nodejs.org/dist/v0.10.20/node-v0.10.20.tar.gz"
+tar xf node-v0.10.20.tar.gz
+rm node-v0.10.20.tar.gz
+mv node-v0.10.20 node
 cd node
 ./configure --prefix=~/.local
 make
