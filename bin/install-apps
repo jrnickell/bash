@@ -207,7 +207,10 @@ make
 make install
 cd ~
 ln -s .local/lib/node_modules .node_modules
+# update PATH in .bashrc
 echo "PATH+=/home/$USERNAME/.local/bin" | tee -a ~/.bashrc
+# update PATH right away
+export PATH=$HOME/.local/bin:$PATH
 
 # bower
 npm install -g bower
