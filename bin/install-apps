@@ -1,10 +1,16 @@
 # !/bin/bash --login -x
 
-echo -n "==> Enter your username: "
+echo -n "==> Enter your computer username: "
 read USERNAME
 
 echo -n "==> Choose a password for MySQL and phpMyAdmin: "
 read PASSWORD
+
+echo -n "==> Enter your full name for git configuration: "
+read FULLNAME
+
+echo -n "==> Enter your email address for git configuration: "
+read EMAILADD
 
 # home directory
 cd ~
@@ -42,6 +48,12 @@ sudo apt-get install -y python
 sudo apt-get install -y g++
 sudo apt-get install -y make
 sudo apt-get install -y keychain
+
+# git general config
+git config --global user.name "$FULLNAME"
+git config --global user.email "$EMAILADD"
+git config --global color.ui true
+git config --global push.default simple
 
 # sublime text
 sudo apt-get install -y sublime-text
