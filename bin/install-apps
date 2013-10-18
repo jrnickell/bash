@@ -237,25 +237,25 @@ sudo apt-get upgrade -y
 echo -e "\nInstallation Complete!"
 echo -e "======================"
 
-echo -e "\nGit Version:"
-echo -e "============"
-git --version
-
 echo -e "\nPython Version:"
 echo -e "==============="
 python -V
 
-echo -e "\nApache Version:"
-echo -e "==============="
-apache2 -v
-
-echo -e "\nMySQL Version:"
-echo -e "=============="
-mysql -V
-
-echo -e "\nPHP Version:"
+echo -e "\nGit Version:"
 echo -e "============"
-php -v
+git --version
+
+echo -e "\nJava Version:"
+echo -e "============="
+java -version
+
+echo -e "\nNode Version:"
+echo -e "============="
+node --version
+
+echo -e "\nBower Version:"
+echo -e "=============="
+bower --version
 
 echo -e "\nRuby Version:"
 echo -e "============="
@@ -273,14 +273,14 @@ echo -e "\nCompass Version:"
 echo -e "================"
 compass version
 
-echo -e "\nNode Version:"
-echo -e "============="
-node --version
+echo -e "\nApache Version:"
+echo -e "==============="
+apache2 -v
 
-echo -e "\nBower Version:"
+echo -e "\nMySQL Version:"
 echo -e "=============="
-bower --version
+mysql -V
 
-echo -e "\nJava Version:"
-echo -e "============="
-java -version
+echo -e "\nPHP Version:"
+echo -e "============"
+php -v
