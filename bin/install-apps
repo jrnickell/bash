@@ -166,6 +166,9 @@ sudo apt-get install -y bison
 sudo apt-get install -y pkg-config
 sudo apt-get install -y libmysqlclient-dev
 sudo apt-get install -y libpq-dev
+sudo apt-get install -y gawk
+sudo apt-get install -y libgdbm-dev
+sudo apt-get install -y libffi-dev
 
 # rvm
 curl -L get.rvm.io | bash -s stable --auto
