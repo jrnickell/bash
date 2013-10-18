@@ -241,21 +241,9 @@ echo -e "\nPython Version:"
 echo -e "==============="
 python -V
 
-echo -e "\nGit Version:"
-echo -e "============"
-git --version
-
 echo -e "\nJava Version:"
 echo -e "============="
 java -version
-
-echo -e "\nNode Version:"
-echo -e "============="
-node --version
-
-echo -e "\nBower Version:"
-echo -e "=============="
-bower --version
 
 echo -e "\nRuby Version:"
 echo -e "============="
@@ -273,6 +261,14 @@ echo -e "\nCompass Version:"
 echo -e "================"
 compass version
 
+echo -e "\nNode Version:"
+echo -e "============="
+node --version
+
+echo -e "\nBower Version:"
+echo -e "=============="
+bower --version
+
 echo -e "\nApache Version:"
 echo -e "==============="
 apache2 -v
@@ -284,3 +280,7 @@ mysql -V
 echo -e "\nPHP Version:"
 echo -e "============"
 php -v
+
+echo -e "\nGit Version:"
+echo -e "============"
+git --version
