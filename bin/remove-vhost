@@ -20,13 +20,13 @@ echo "removed /home/$USER/Logs/$project"
 
 sudo a2dissite $project
 
-sudo rm /etc/apache2/sites-available/$project
-echo "removed /etc/apache2/sites-available/$project"
+sudo rm /etc/apache2/sites-available/$project.conf
+echo "removed /etc/apache2/sites-available/$project.conf"
 
 sudo sed -i "/$dname/ d" /etc/hosts
 sudo sed -i "/www.$dname/ d" /etc/hosts
 
-sudo /etc/init.d/apache2 restart
+sudo service apache2 restart
 
 echo "removed $project."
 exit
