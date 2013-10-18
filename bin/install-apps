@@ -6,10 +6,10 @@ read USERNAME
 echo -n "==> Choose a password for MySQL and phpMyAdmin: "
 read PASSWORD
 
-echo -n "==> Enter your full name for git configuration: "
+echo -n "==> Enter your full name for Git configuration: "
 read FULLNAME
 
-echo -n "==> Enter your email address for git configuration: "
+echo -n "==> Enter your email address for Git configuration: "
 read EMAILADD
 
 # home directory
