@@ -232,3 +232,55 @@ sudo apt-get install -y jenkins
 sudo apt-get autoremove -y
 sudo apt-get update
 sudo apt-get upgrade -y
+
+# Version information
+echo -e "\nInstallation Complete!"
+echo -e "======================"
+
+echo -e "\nGit Version:"
+echo -e "============"
+git --version
+
+echo -e "\nPython Version:"
+echo -e "==============="
+python -V
+
+echo -e "\nApache Version:"
+echo -e "==============="
+apache2 -v
+
+echo -e "\nMySQL Version:"
+echo -e "=============="
+mysql -V
+
+echo -e "\nPHP Version:"
+echo -e "============"
+php -v
+
+echo -e "\nRuby Version:"
+echo -e "============="
+ruby --version
+
+echo -e "\nRails Version:"
+echo -e "=============="
+rails --version
+
+echo -e "\nSass Version:"
+echo -e "============="
+sass --version
+
+echo -e "\nCompass Version:"
+echo -e "================"
+compass version
+
+echo -e "\nNode Version:"
+echo -e "============="
+node --version
+
+echo -e "\nBower Version:"
+echo -e "=============="
+bower --version
+
+echo -e "\nJava Version:"
+echo -e "============="
+java -version
