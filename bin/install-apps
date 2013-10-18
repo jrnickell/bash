@@ -83,7 +83,7 @@ sudo apt-get install -y fonts-ubuntu-title
 
 # apache
 sudo apt-get install -y apache2
-echo "ServerName localhost" | sudo tee /etc/apache2/conf.d/fqdn
+echo "ServerName localhost" | sudo tee /etc/apache2/apache2.conf
 sudo a2enmod rewrite
 sudo a2enmod headers
 sudo a2enmod filter
