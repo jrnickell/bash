@@ -119,7 +119,7 @@ sudo apt-get install -y php5-xsl
 sudo apt-get install -y php5-sqlite
 sudo apt-get install -y php5-imagick
 sudo apt-get install -y php5-json
-sudo apt-get install -y php5-user-cache
+sudo apt-get install -y php5-apcu
 
 # composer
 curl -sS https://getcomposer.org/installer | php
