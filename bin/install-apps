@@ -147,11 +147,6 @@ sudo ln -s /usr/share/php/texy/src/texy.php /usr/share/php/Texy/texy.php
 # restart apache
 sudo service apache2 restart
 
-# nodejs
-# now manually downloading and compiling from source
-# following this guide:
-# http://tnovelli.net/blog/blog.2011-08-27.node-npm-user-install.html
-
 # ruby dependencies
 sudo apt-get install -y libreadline6
 sudo apt-get install -y libreadline6-dev
@@ -193,6 +188,9 @@ gem update --system
 gem install compass
 
 # nodejs
+# now manually downloading and compiling from source
+# following this guide:
+# http://tnovelli.net/blog/blog.2011-08-27.node-npm-user-install.html
 touch ~/.npmrc
 mkdir ~/.local
 echo "root = /home/$USERNAME/.local/lib/node_modules" | tee -a ~/.npmrc
