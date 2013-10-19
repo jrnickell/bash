@@ -1,8 +1,5 @@
 # !/bin/bash --login -x
 
-echo -n "==> Enter your computer username: "
-read USERNAME
-
 echo -n "==> Choose a password for MySQL and phpMyAdmin: "
 read PASSWORD
 
@@ -197,7 +194,9 @@ sudo apt-get install -y libffi-dev
 curl -L get.rvm.io | bash -s stable --auto
 
 # include profile in .bash_profile
-echo "source ~/.profile" | tee -a ~/.bash_profile
+touch ~/.bash_profile
+cat ~/.bash_profile | sed -e "1s|^|source ~/.profile\n|" > ~/.bash_profile_tmp
+mv ~/.bash_profile_tmp ~/.bash_profile
 
 # reset bash
 . ~/.bash_profile
@@ -219,9 +218,9 @@ gem install compass
 # http://tnovelli.net/blog/blog.2011-08-27.node-npm-user-install.html
 touch ~/.npmrc
 mkdir ~/.local
-echo "root = /home/$USERNAME/.local/lib/node_modules" | tee -a ~/.npmrc
-echo "binroot = /home/$USERNAME/.local/bin" | tee -a ~/.npmrc
-echo "manroot = /home/$USERNAME/.local/share/man" | tee -a ~/.npmrc
+echo "root = /home/$USER/.local/lib/node_modules" | tee -a ~/.npmrc
+echo "binroot = /home/$USER/.local/bin" | tee -a ~/.npmrc
+echo "manroot = /home/$USER/.local/share/man" | tee -a ~/.npmrc
 cd ~/.local
 wget "http://nodejs.org/dist/v0.10.20/node-v0.10.20.tar.gz"
 tar xf node-v0.10.20.tar.gz
@@ -234,9 +233,9 @@ make install
 cd ~
 ln -s .local/lib/node_modules .node_modules
 # update PATH in .bashrc
-echo "PATH+=/home/$USERNAME/.local/bin" | tee -a ~/.bashrc
+echo 'PATH=$PATH:$HOME/.local/bin' | tee -a ~/.bashrc
 # update PATH right away
-export PATH=$HOME/.local/bin:$PATH
+export PATH=$PATH:$HOME/.local/bin
 
 # bower
 npm install -g bower
