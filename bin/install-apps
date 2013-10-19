@@ -212,6 +212,11 @@ gem install rails -v 4.0.0
 gem update --system
 gem install compass
 
+# update PATH in .bashrc
+echo 'PATH=$PATH:$HOME/.rvm/gems/ruby-2.0.0-p247/bin' | tee -a ~/.bashrc
+# update PATH right away
+export PATH=$PATH:$HOME/.rvm/gems/ruby-2.0.0-p247/bin
+
 # nodejs
 # now manually downloading and compiling from source
 # following this guide:
