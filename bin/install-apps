@@ -126,9 +126,6 @@ sudo apt-get install -y sqlite3
 # phpmyadmin
 sudo apt-get install -y -q phpmyadmin
 
-# imagemagick
-sudo apt-get install -y imagemagick
-
 # php extensions
 sudo apt-get install -y php-apc
 sudo apt-get install -y php5-curl
@@ -142,80 +139,37 @@ sudo apt-get install -y php5-json
 sudo apt-get install -y php5-apcu
 sudo apt-get install -y php5-mcrypt
 
-# mcrypt installation fix
-sudo ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/apache2/conf.d/20-mcrypt.ini
-
 # composer
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
-# pear
-sudo apt-get install -y php-pear
-
-# phpunit, apigen, phing, phpdox, and php qa tools
-pear config-set auto_discover 1
-sudo pear install --alldeps pear.phpunit.de/PHPUnit
-sudo pear install --alldeps pear.apigen.org/apigen
-sudo pear install --alldeps pear.phpqatools.org/phpqatools
-sudo pear channel-discover pear.phing.info
-sudo pear install --alldeps phing/phing
-
-# apigen temporary fix
-sudo mkdir /usr/share/php/Texy
-sudo ln -s /usr/share/php/texy/src/texy.php /usr/share/php/Texy/texy.php
+# mcrypt installation fix
+sudo cp /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/
+sudo php5enmod mcrypt
 
 # restart apache
 sudo service apache2 restart
 
-# ruby dependencies
-sudo apt-get install -y libreadline6
-sudo apt-get install -y libreadline6-dev
-sudo apt-get install -y zlib1g
-sudo apt-get install -y zlib1g-dev
-sudo apt-get install -y libssl-dev
-sudo apt-get install -y libyaml-dev
-sudo apt-get install -y libsqlite3-dev
-sudo apt-get install -y libxml2-dev
-sudo apt-get install -y libxslt1-dev
-sudo apt-get install -y autoconf
-sudo apt-get install -y libc6-dev
-sudo apt-get install -y libncurses5-dev
-sudo apt-get install -y automake
-sudo apt-get install -y libtool
-sudo apt-get install -y bison
-sudo apt-get install -y pkg-config
-sudo apt-get install -y libmysqlclient-dev
-sudo apt-get install -y libpq-dev
-sudo apt-get install -y gawk
-sudo apt-get install -y libgdbm-dev
-sudo apt-get install -y libffi-dev
+# ruby install
+# following this guide:
+# http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/
+curl -L get.rvm.io | bash -s stable
 
-# rvm
-curl -L get.rvm.io | bash -s stable --auto
+# source rvm script and add to .bashrc
+source ~/.rvm/scripts/rvm
+echo 'source ~/.rvm/scripts/rvm' | tee -a ~/.bashrc
 
-# include profile in .bash_profile
-touch ~/.bash_profile
-cat ~/.bash_profile | sed -e "1s|^|source ~/.profile\n|" > ~/.bash_profile_tmp
-mv ~/.bash_profile_tmp ~/.bash_profile
-
-# reset bash
-. ~/.bash_profile
+# install requirements
+rvm requirements
 
 # ruby
-rvm install 2.0.0
-rvm --default use 2.0.0
-
-# ruby on rails
-gem install rails -v 4.0.0
+rvm install 2.1.1
+rvm use 2.1.1
+rvm --default use 2.1.1
 
 # compass sass
 gem update --system
 gem install compass
-
-# update PATH in .bashrc
-echo 'PATH=$PATH:$HOME/.rvm/gems/ruby-2.0.0-p247/bin' | tee -a ~/.bashrc
-# update PATH right away
-export PATH=$PATH:$HOME/.rvm/gems/ruby-2.0.0-p247/bin
 
 # nodejs
 # now manually downloading and compiling from source
@@ -227,10 +181,10 @@ echo "root = /home/$USER/.local/lib/node_modules" | tee -a ~/.npmrc
 echo "binroot = /home/$USER/.local/bin" | tee -a ~/.npmrc
 echo "manroot = /home/$USER/.local/share/man" | tee -a ~/.npmrc
 cd ~/.local
-wget "http://nodejs.org/dist/v0.10.20/node-v0.10.20.tar.gz"
-tar xf node-v0.10.20.tar.gz
-rm node-v0.10.20.tar.gz
-mv node-v0.10.20 node
+wget "http://nodejs.org/dist/v0.10.26/node-v0.10.26.tar.gz"
+tar xf node-v0.10.26.tar.gz
+rm node-v0.10.26.tar.gz
+mv node-v0.10.26 node
 cd node
 ./configure --prefix=~/.local
 make
@@ -242,18 +196,9 @@ echo 'PATH=$PATH:$HOME/.local/bin' | tee -a ~/.bashrc
 # update PATH right away
 export PATH=$PATH:$HOME/.local/bin
 
-# bower
-npm install -g bower
-
 # java
 sudo apt-get install -y openjdk-7-jre
 sudo apt-get install -y openjdk-7-jdk
-
-# jenkins
-wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
-sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
-sudo apt-get update
-sudo apt-get install -y jenkins
 
 # cleanup
 sudo apt-get autoremove -y
@@ -276,10 +221,6 @@ echo -e "\nRuby Version:"
 echo -e "============="
 ruby --version
 
-echo -e "\nRails Version:"
-echo -e "=============="
-rails --version
-
 echo -e "\nSass Version:"
 echo -e "============="
 sass --version
@@ -291,10 +232,6 @@ compass version
 echo -e "\nNode Version:"
 echo -e "============="
 node --version
-
-echo -e "\nBower Version:"
-echo -e "=============="
-bower --version
 
 echo -e "\nApache Version:"
 echo -e "==============="
