@@ -42,8 +42,10 @@ sudo apt-get install -y openssl
 sudo apt-get install -y subversion
 sudo apt-get install -y python-software-properties
 sudo apt-get install -y python
+sudo apt-get install -y gcc
 sudo apt-get install -y g++
 sudo apt-get install -y make
+sudo apt-get install -y re2c
 sudo apt-get install -y keychain
 
 # git general config
@@ -146,6 +148,25 @@ sudo mv composer.phar /usr/local/bin/composer
 # mcrypt installation fix
 sudo cp /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/
 sudo php5enmod mcrypt
+
+# zephir
+sudo apt-get install -y libpcre3-dev
+cd ~/.local
+# temporarily broken
+# git clone https://github.com/json-c/json-c.git
+git clone https://github.com/fingon/json-c # TEMP
+cd json-c
+git branch unused_size # TEMP
+git checkout unused_size # TEMP
+git pull -u origin unused_size # TEMP
+sh autogen.sh
+./configure
+make && sudo make install
+cd ~/.local
+git clone https://github.com/phalcon/zephir
+cd zephir
+./install -c
+cd ~
 
 # restart apache
 sudo service apache2 restart
