@@ -128,6 +128,33 @@ sudo apt-get install -y sqlite3
 # phpmyadmin
 sudo apt-get install -y -q phpmyadmin
 
+# php.ini settings
+sudo sed -i "s/^error_reporting.*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
+sudo sed -i "s/^display_errors.*/display_errors = On/" /etc/php5/apache2/php.ini
+sudo sed -i "s/^error_reporting.*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
+sudo sed -i "s/^display_errors.*/display_errors = On/" /etc/php5/cli/php.ini
+sudo sed -i "s/^disable_functions.*/disable_functions = /" /etc/php5/cli/php.ini
+sudo sed -i "s/^;date\.timezone.*/date.timezone = UTC/" /etc/php5/apache2/php.ini
+sudo sed -i "s/^;date\.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
+sudo sed -i "s#^;include_path = \"\.:/usr/share/php\"#include_path = \".:/usr/share/php\"#" /etc/php5/apache2/php.ini
+sudo sed -i "s#^;include_path = \"\.:/usr/share/php\"#include_path = \".:/usr/share/php\"#" /etc/php5/cli/php.ini
+
+# pear
+sudo apt-get install -y php-pear
+
+# phpunit, apigen, and phing
+sudo pear config-set auto_discover 1
+sudo pear install --alldeps pear.phpunit.de/PHPUnit
+sudo pear install --alldeps pear.apigen.org/apigen
+sudo pear channel-discover pear.phing.info
+sudo pear config-set preferred_state alpha
+sudo pear install --alldeps phing/phing
+sudo pear config-set preferred_state stable
+
+# apigen temporary fix
+sudo mkdir /usr/share/php/Texy
+sudo ln -s /usr/share/php/texy/src/texy.php /usr/share/php/Texy/texy.php
+
 # php extensions
 sudo apt-get install -y php-apc
 sudo apt-get install -y php5-curl
@@ -148,25 +175,6 @@ sudo mv composer.phar /usr/local/bin/composer
 # mcrypt installation fix
 sudo cp /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/
 sudo php5enmod mcrypt
-
-# zephir
-sudo apt-get install -y libpcre3-dev
-cd ~/.local
-# temporarily broken
-# git clone https://github.com/json-c/json-c.git
-git clone https://github.com/fingon/json-c # TEMP
-cd json-c
-git branch unused_size # TEMP
-git checkout unused_size # TEMP
-git pull -u origin unused_size # TEMP
-sh autogen.sh
-./configure
-make && sudo make install
-cd ~/.local
-git clone https://github.com/phalcon/zephir
-cd zephir
-./install -c
-cd ~
 
 # restart apache
 sudo service apache2 restart
