@@ -127,20 +127,8 @@ curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
 # ssl certificates
-sudo mkdir /etc/apache2/ssl
-cd /etc/apache2/ssl
-
-# signing certificate
-sudo openssl genrsa -des3 -out ca.key 4096
-sudo openssl req -new -x509 -days 1825 -key ca.key -out ca.crt
-
-# default certificate
-sudo openssl genrsa -des3 -out 000_default.key 4096
-sudo openssl req -new -key 000_default.key -out 000_default.csr
-sudo openssl x509 -req -days 1825 -in 000_default.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out 000_default.crt
-sudo openssl rsa -in 000_default.key -out 000_default.key.insecure
-sudo mv 000_default.key 000_default.key.secure
-sudo mv 000_default.key.insecure 000_default.key
+sudo mkdir -p /etc/apache2/ssl/000_default
+sudo openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout /etc/apache2/ssl/000_default/apache.key -out /etc/apache2/ssl/000_default/apache.crt
 
 # Update 000-default.conf with backup
 sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.bak
@@ -149,9 +137,8 @@ cat /etc/apache2/sites-available/000-default.conf.bak | sed '
 <VirtualHost *:443>\
 \
     SSLEngine On\
-    SSLCertificateFile /etc/apache2/ssl/000_default.crt\
-    SSLCertificateKeyFile /etc/apache2/ssl/000_default.key\
-    SSLCertificateChainFile /etc/apache2/ssl/ca.crt\
+    SSLCertificateFile /etc/apache2/ssl/000_default/apache.crt\
+    SSLCertificateKeyFile /etc/apache2/ssl/000_default/apache.key\
 \
     # The ServerName directive sets the request scheme, hostname and port that\
     # the server uses to identify itself. This is used when creating\
