@@ -1,4 +1,4 @@
-# !/bin/bash --login -x
+#!/bin/bash --login
 
 echo -n "==> Choose a password for MySQL and phpMyAdmin: "
 read PASSWORD
