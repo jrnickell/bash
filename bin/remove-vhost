@@ -12,10 +12,9 @@ read dname
 clear
 echo "Removing files for $project"
 
-sudo rm /etc/apache2/ssl/$project.crt
-sudo rm /etc/apache2/ssl/$project.csr
-sudo rm /etc/apache2/ssl/$project.key
-sudo rm /etc/apache2/ssl/$project.key.secure
+sudo rm /etc/apache2/ssl/$project/apache.crt
+sudo rm /etc/apache2/ssl/$project/apache.key
+sudo rm -r /etc/apache2/ssl/$project
 
 sudo rm -r /home/$USER/Projects/$project
 echo "removed /home/$USER/Projects/$project"
