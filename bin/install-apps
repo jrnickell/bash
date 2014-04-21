@@ -126,7 +126,65 @@ sudo apt-get install -y php5-mcrypt
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
+# ssl certificates
+sudo mkdir /etc/apache2/ssl
+cd /etc/apache2/ssl
+
+# signing certificate
+sudo openssl genrsa -des3 -out ca.key 4096
+sudo openssl req -new -x509 -days 1825 -key ca.key -out ca.crt
+
+# default certificate
+sudo openssl genrsa -des3 -out 000_default.key 4096
+sudo openssl req -new -key 000_default.key -out 000_default.csr
+sudo openssl x509 -req -days 1825 -in 000_default.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out 000_default.crt
+sudo openssl rsa -in 000_default.key -out 000_default.key.insecure
+sudo mv 000_default.key 000_default.key.secure
+sudo mv 000_default.key.insecure 000_default.key
+
+# Update 000-default.conf with backup
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.bak
+cat /etc/apache2/sites-available/000-default.conf.bak | sed '
+/^# vim:/ i\
+<VirtualHost *:443>\
+\
+    SSLEngine On\
+    SSLCertificateFile /etc/apache2/ssl/000_default.crt\
+    SSLCertificateKeyFile /etc/apache2/ssl/000_default.key\
+    SSLCertificateChainFile /etc/apache2/ssl/ca.crt\
+\
+    # The ServerName directive sets the request scheme, hostname and port that\
+    # the server uses to identify itself. This is used when creating\
+    # redirection URLs. In the context of virtual hosts, the ServerName\
+    # specifies what hostname must appear in the request Host: header to\
+    # match this virtual host. For the default virtual host (this file) this\
+    # value is not decisive as it is used as a last resort host regardless.\
+    # However, you must set it for any further virtual host explicitly.\
+    #ServerName www.example.com\
+\
+    ServerAdmin webmaster@localhost\
+    DocumentRoot /var/www/html\
+\
+    # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,\
+    # error, crit, alert, emerg.\
+    # It is also possible to configure the loglevel for particular\
+    # modules, e.g.\
+    #LogLevel info ssl:warn\
+\
+    ErrorLog ${APACHE_LOG_DIR}/error.log\
+    CustomLog ${APACHE_LOG_DIR}/access.log combined\
+\
+    # For most configuration files from conf-available/, which are\
+    # enabled or disabled at a global level, it is possible to\
+    # include a line for only one particular virtual host. For example the\
+    # following line enables the CGI configuration for this host only\
+    # after it has been globally disabled with "a2disconf".\
+    #Include conf-available/serve-cgi-bin.conf\
+</VirtualHost>\
+' | sudo tee /etc/apache2/sites-available/000-default.conf
+
 # restart apache
+cd ~
 sudo service apache2 restart
 
 # update PATH in .bashrc for nodejs
@@ -177,6 +235,7 @@ sudo apt-get install -y openjdk-7-jre
 sudo apt-get install -y openjdk-7-jdk
 
 # cleanup
+cd ~
 sudo apt-get -y autoremove
 sudo apt-get update
 sudo aptitude -y safe-upgrade
