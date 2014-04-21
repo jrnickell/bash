@@ -91,12 +91,14 @@ read webroot
 clear
 echo "Setting up files for $project"
 
+cd /etc/apache2/ssl
 sudo openssl genrsa -des3 -out $project.key 4096
 sudo openssl req -new -key $project.key -out $project.csr
 sudo openssl x509 -req -days 1825 -in $project.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out $project.crt
 sudo openssl rsa -in $project.key -out $project.key.insecure
 sudo mv $project.key $project.key.secure
 sudo mv $project.key.insecure $project.key
+cd ~
 
 mkdir -vp /home/$USER/Projects/$project/$webroot
 mkdir -vp /home/$USER/Logs/$project
