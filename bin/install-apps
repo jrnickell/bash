@@ -12,9 +12,6 @@ read EMAILADD
 # home directory
 cd ~
 
-# repositories; hit [Enter] for each one to continue
-sudo add-apt-repository ppa:webupd8team/sublime-text-2
-
 # update packages
 sudo apt-get update
 
@@ -53,9 +50,6 @@ git config --global user.name "$FULLNAME"
 git config --global user.email "$EMAILADD"
 git config --global color.ui true
 git config --global push.default simple
-
-# sublime text
-sudo apt-get install -y sublime-text
 
 # chromium
 sudo apt-get install -y chromium-browser
@@ -128,7 +122,7 @@ sudo apt-get install -y sqlite3
 # phpmyadmin
 sudo apt-get install -y -q phpmyadmin
 
-# php.ini settings
+# php.ini settings for development
 sudo sed -i "s/^error_reporting.*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
 sudo sed -i "s/^display_errors.*/display_errors = On/" /etc/php5/apache2/php.ini
 sudo sed -i "s/^error_reporting.*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
@@ -172,12 +166,11 @@ sudo apt-get install -y php5-mcrypt
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
-# mcrypt installation fix
-sudo cp /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/
-sudo php5enmod mcrypt
-
 # restart apache
 sudo service apache2 restart
+
+# update PATH in .bashrc for nodejs
+echo 'PATH=$PATH:$HOME/.local/bin' | tee -a ~/.bashrc
 
 # ruby install
 # following this guide:
@@ -195,10 +188,6 @@ rvm requirements
 rvm install 2.1.1
 rvm use 2.1.1
 rvm --default use 2.1.1
-
-# compass sass
-gem update --system
-gem install compass
 
 # nodejs
 # now manually downloading and compiling from source
@@ -220,8 +209,6 @@ make
 make install
 cd ~
 ln -s .local/lib/node_modules .node_modules
-# update PATH in .bashrc
-echo 'PATH=$PATH:$HOME/.local/bin' | tee -a ~/.bashrc
 # update PATH right away
 export PATH=$PATH:$HOME/.local/bin
 
