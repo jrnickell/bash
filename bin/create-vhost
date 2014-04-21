@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 
 function make_index
 {
@@ -25,7 +25,7 @@ cat <<- __EOF__
     ServerName $dname
     ServerAlias www.$dname
 
-    DirectoryIndex index.html index.php
+    DirectoryIndex index.php
     DocumentRoot /home/$USER/Projects/$project/$webroot
 
     <Directory /home/$USER/Projects/$project/$webroot/>
@@ -46,15 +46,16 @@ cat <<- __EOF__
 
 <VirtualHost *:443>
     SSLEngine On
-    SSLCertificateFile /etc/ssl/local/apache.pem
-    SSLCertificateKeyFile /etc/ssl/local/apache.key
+    SSLCertificateFile /etc/apache2/ssl/$project.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/$project.key
+    SSLCertificateChainFile /etc/apache2/ssl/ca.crt
 
     ServerAdmin webmaster@localhost
 
     ServerName $dname
     ServerAlias www.$dname
 
-    DirectoryIndex index.html index.php
+    DirectoryIndex index.php
     DocumentRoot /home/$USER/Projects/$project/$webroot
 
     <Directory /home/$USER/Projects/$project/$webroot/>
@@ -90,6 +91,13 @@ read webroot
 clear
 echo "Setting up files for $project"
 
+sudo openssl genrsa -des3 -out $project.key 4096
+sudo openssl req -new -key $project.key -out $project.csr
+sudo openssl x509 -req -days 1825 -in $project.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out $project.crt
+sudo openssl rsa -in $project.key -out $project.key.insecure
+sudo mv $project.key $project.key.secure
+sudo mv $project.key.insecure $project.key
+
 mkdir -vp /home/$USER/Projects/$project/$webroot
 mkdir -vp /home/$USER/Logs/$project
 touch /home/$USER/Logs/$project/access.log
@@ -97,8 +105,8 @@ echo "created /home/$USER/Logs/$project/access.log"
 touch /home/$USER/Logs/$project/error.log
 echo "created /home/$USER/Logs/$project/error.log"
 
-make_index > /home/$USER/Projects/$project/$webroot/index.html
-echo "created /home/$USER/Projects/$project/$webroot/index.html"
+make_index > /home/$USER/Projects/$project/$webroot/index.php
+echo "created /home/$USER/Projects/$project/$webroot/index.php"
 
 make_vhost > /home/$USER/$project
 sudo mv /home/$USER/$project /etc/apache2/sites-available/$project.conf
