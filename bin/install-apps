@@ -66,6 +66,7 @@ sudo a2enmod headers
 sudo a2enmod filter
 sudo a2enmod expires
 sudo a2enmod include
+sudo a2enmod ssl
 
 # php
 sudo apt-get install -y php5
