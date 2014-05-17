@@ -28,21 +28,7 @@ echo "phpmyadmin phpmyadmin/app-password-confirm password $PASSWORD" | sudo debc
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | sudo debconf-set-selections
 
 # general utilities
-sudo apt-get install -y aptitude
-sudo apt-get install -y wget
-sudo apt-get install -y curl
-sudo apt-get install -y git
-sudo apt-get install -y vim
-sudo apt-get install -y cron
-sudo apt-get install -y build-essential
-sudo apt-get install -y openssl
-sudo apt-get install -y subversion
-sudo apt-get install -y python-software-properties
-sudo apt-get install -y python
-sudo apt-get install -y gcc
-sudo apt-get install -y g++
-sudo apt-get install -y make
-sudo apt-get install -y keychain
+sudo apt-get install -y aptitude wget curl git vim cron build-essential openssl subversion python-software-properties python gcc g++ make keychain
 
 # git general config
 git config --global user.name "$FULLNAME"
@@ -69,19 +55,13 @@ sudo a2enmod include
 sudo a2enmod ssl
 
 # php
-sudo apt-get install -y php5
-sudo apt-get install -y libapache2-mod-php5
-sudo apt-get install -y php5-dev
+sudo apt-get install -y php5 libapache2-mod-php5 php5-dev
 
 # mysql
-sudo apt-get install -y -q mysql-server
-sudo apt-get install -y php5-mysql
+sudo apt-get install -y -q mysql-server libapache2-mod-auth-mysql php5-mysql
 
 # sqlite
 sudo apt-get install -y sqlite3
-
-# phpmyadmin
-sudo apt-get install -y -q phpmyadmin
 
 # php.ini settings for development
 sudo sed -i "s/^error_reporting.*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
@@ -94,34 +74,12 @@ sudo sed -i "s/^;date\.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
 sudo sed -i "s#^;include_path = \"\.:/usr/share/php\"#include_path = \".:/usr/share/php\"#" /etc/php5/apache2/php.ini
 sudo sed -i "s#^;include_path = \"\.:/usr/share/php\"#include_path = \".:/usr/share/php\"#" /etc/php5/cli/php.ini
 
-# pear
-sudo apt-get install -y php-pear
-
-# phpunit, apigen, and phing
-sudo pear config-set auto_discover 1
-sudo pear install --alldeps pear.phpunit.de/PHPUnit
-sudo pear install --alldeps pear.apigen.org/apigen
-sudo pear channel-discover pear.phing.info
-sudo pear config-set preferred_state alpha
-sudo pear install --alldeps phing/phing
-sudo pear config-set preferred_state stable
-
-# apigen temporary fix
-sudo mkdir /usr/share/php/Texy
-sudo ln -s /usr/share/php/texy/src/texy.php /usr/share/php/Texy/texy.php
-
 # php extensions
-sudo apt-get install -y php-apc
-sudo apt-get install -y php5-curl
-sudo apt-get install -y php5-intl
-sudo apt-get install -y php5-xdebug
-sudo apt-get install -y php5-xmlrpc
-sudo apt-get install -y php5-xsl
-sudo apt-get install -y php5-sqlite
-sudo apt-get install -y php5-imagick
-sudo apt-get install -y php5-json
-sudo apt-get install -y php5-apcu
-sudo apt-get install -y php5-mcrypt
+sudo apt-get install -y php5-curl php5-intl php5-xdebug php5-xmlrpc php5-xsl php5-sqlite php5-imagick php5-json php5-apcu php5-mcrypt
+
+# phpmyadmin
+sudo php5enmod mcrypt
+sudo apt-get install -y -q phpmyadmin
 
 # composer
 curl -sS https://getcomposer.org/installer | php
@@ -175,9 +133,6 @@ cat /etc/apache2/sites-available/000-default.conf.bak | sed '
 cd ~
 sudo service apache2 restart
 
-# update PATH in .bashrc for nodejs
-echo 'PATH=$PATH:$HOME/.local/bin' | tee -a ~/.bashrc
-
 # ruby install
 # following this guide:
 # http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/
@@ -191,32 +146,9 @@ echo 'source ~/.rvm/scripts/rvm' | tee -a ~/.bashrc
 rvm requirements
 
 # ruby
-rvm install 2.1.1
-rvm use 2.1.1
-rvm --default use 2.1.1
-
-# nodejs
-# now manually downloading and compiling from source
-# following this guide:
-# http://tnovelli.net/blog/blog.2011-08-27.node-npm-user-install.html
-touch ~/.npmrc
-mkdir ~/.local
-echo "root = /home/$USER/.local/lib/node_modules" | tee -a ~/.npmrc
-echo "binroot = /home/$USER/.local/bin" | tee -a ~/.npmrc
-echo "manroot = /home/$USER/.local/share/man" | tee -a ~/.npmrc
-cd ~/.local
-wget "http://nodejs.org/dist/v0.10.26/node-v0.10.26.tar.gz"
-tar xf node-v0.10.26.tar.gz
-rm node-v0.10.26.tar.gz
-mv node-v0.10.26 node
-cd node
-./configure --prefix=~/.local
-make
-make install
-cd ~
-ln -s .local/lib/node_modules .node_modules
-# update PATH right away
-export PATH=$PATH:$HOME/.local/bin
+rvm install 2.1.2
+rvm use 2.1.2
+rvm --default use 2.1.2
 
 # java
 sudo apt-get install -y openjdk-7-jre
@@ -243,10 +175,6 @@ java -version
 echo -e "\nRuby Version:"
 echo -e "============="
 ruby --version
-
-echo -e "\nNode Version:"
-echo -e "============="
-node --version
 
 echo -e "\nApache Version:"
 echo -e "==============="
