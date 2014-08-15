@@ -12,8 +12,37 @@ read EMAILADD
 # home directory
 cd ~
 
+# getdeb and playdeb
+echo "Downloading GetDeb and PlayDeb" &&
+wget http://archive.getdeb.net/install_deb/getdeb-repository_0.1-1~getdeb1_all.deb http://archive.getdeb.net/install_deb/playdeb_0.3-1~getdeb1_all.deb &&
+
+echo "Installing GetDeb" &&
+sudo dpkg -i getdeb-repository_0.1-1~getdeb1_all.deb &&
+
+echo "Installing PlayDeb" &&
+sudo dpkg -i playdeb_0.3-1~getdeb1_all.deb &&
+
+echo "Deleting Downloads" &&
+rm -f getdeb-repository_0.1-1~getdeb1_all.deb &&
+rm -f playdeb_0.3-1~getdeb1_all.deb
+
+# repositories
+sudo add-apt-repository -y ppa:webupd8team/sublime-text-2
+sudo add-apt-repository -y ppa:videolan/stable-daily
+sudo add-apt-repository -y ppa:otto-kesselgulasch/gimp
+sudo add-apt-repository -y ppa:gnome3-team/gnome3
+sudo add-apt-repository -y ppa:webupd8team/java
+sudo add-apt-repository -y ppa:webupd8team/y-ppa-manager
+
+# libdvdcss
+echo 'deb http://download.videolan.org/pub/debian/stable/ /' | sudo tee -a /etc/apt/sources.list.d/libdvdcss.list &&
+echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' | sudo tee -a /etc/apt/sources.list.d/libdvdcss.list &&
+wget -O - http://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add -
+
 # update packages
 sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
 
 # debconf utils
 sudo apt-get install -y debconf-utils
@@ -28,7 +57,79 @@ echo "phpmyadmin phpmyadmin/app-password-confirm password $PASSWORD" | sudo debc
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | sudo debconf-set-selections
 
 # general utilities
-sudo apt-get install -y aptitude wget curl git vim cron build-essential openssl subversion python-software-properties python gcc g++ make keychain
+sudo apt-get install -y aptitude
+sudo apt-get install -y wget
+sudo apt-get install -y curl
+sudo apt-get install -y cron
+sudo apt-get install -y bleachbit
+
+# text editors
+sudo apt-get install -y vim
+sudo apt-get install -y sublime-text
+
+# version control
+sudo apt-get install -y git
+sudo apt-get install -y subversion
+
+# build essential
+sudo apt-get install -y build-essential
+
+# openssl
+sudo apt-get install -y openssl
+
+# python
+sudo apt-get install -y python-software-properties
+sudo apt-get install -y python
+
+# compilers
+sudo apt-get install -y gcc
+sudo apt-get install -y g++
+
+# make
+sudo apt-get install -y make
+
+# keychain
+sudo apt-get install -y keychain
+
+# synaptic
+sudo apt-get install -y synaptic
+
+# vlc
+sudo apt-get install -y vlc
+
+# gimp
+sudo apt-get install -y gimp gimp-data gimp-plugin-registry gimp-data-extras
+
+# ppa manager
+sudo apt-get install -y y-ppa-manager
+
+# flash
+sudo apt-get install -y flashplugin-installer
+
+# archives
+sudo apt-get install -y unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller
+
+# codecs
+sudo apt-get install -y libxine1-ffmpeg mencoder flac faac faad sox ffmpeg2theora libmpeg2-4 uudeview libmpeg3-1 mpeg3-utils mpegdemux liba52-dev mpeg2dec vorbis-tools id3v2 mpg321 mpg123 libflac++6 totem-mozilla icedax lame libmad0 libjpeg-progs libdvdcss2 libdvdread4 libdvdnav4 libswscale-extra-2 ubuntu-restricted-extras
+
+# wallpapers
+sudo apt-get install -y ubuntu-wallpapers*
+
+# chrome
+if [[ $(getconf LONG_BIT) = "64" ]]
+then
+	echo "64bit Detected" &&
+	echo "Installing Google Chrome" &&
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+	sudo dpkg -i google-chrome-stable_current_amd64.deb &&
+	rm -f google-chrome-stable_current_amd64.deb
+else
+	echo "32bit Detected" &&
+	echo "Installing Google Chrome" &&
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb &&
+	sudo dpkg -i google-chrome-stable_current_i386.deb &&
+	rm -f google-chrome-stable_current_i386.deb
+fi
 
 # git general config
 git config --global user.name "$FULLNAME"
@@ -185,9 +286,11 @@ sudo apt-get install -y openjdk-7-jdk
 
 # cleanup
 cd ~
-sudo apt-get -y autoremove
-sudo apt-get update
-sudo aptitude -y safe-upgrade
+echo "Cleaning Up" &&
+sudo apt-get -f install &&
+sudo apt-get autoremove &&
+sudo apt-get -y autoclean &&
+sudo apt-get -y clean
 
 # Version information
 echo -e "\nInstallation Complete!"
