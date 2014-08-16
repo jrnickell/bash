@@ -62,6 +62,7 @@ sudo apt-get install -y wget
 sudo apt-get install -y curl
 sudo apt-get install -y cron
 sudo apt-get install -y bleachbit
+sudo apt-get install -y ntp ntpdate
 
 # text editors
 sudo apt-get install -y vim
