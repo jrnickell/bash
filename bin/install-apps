@@ -275,6 +275,9 @@ rvm requirements
 sudo apt-get install -y libmysqlclient-dev
 sudo apt-get install -y libpq-dev
 
+# add autoupdate flag
+echo rvm_autoupdate_flag=2 >> ~/.rvmrc
+
 # ruby
 rvm install 2.1.3
 rvm use 2.1.3
