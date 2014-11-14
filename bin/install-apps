@@ -64,7 +64,7 @@ else
 fi
 
 # fix missing dependencies
-sudo apt-get -f install
+sudo apt-get -f -y install
 
 # git general config
 git config --global user.name "$FULLNAME"
