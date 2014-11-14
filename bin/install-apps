@@ -235,7 +235,7 @@ sudo apt-get install -qq openjdk-7-jdk
 # cleanup
 cd ~
 echo "Cleaning Up" &&
-sudo apt-get -f install &&
+sudo apt-get -f -y install &&
 sudo apt-get autoremove &&
 sudo apt-get -y autoclean &&
 sudo apt-get -y clean
