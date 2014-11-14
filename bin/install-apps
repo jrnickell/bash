@@ -1,4 +1,4 @@
-#!/bin/bash --login
+#!/usr/bin/env bash
 
 echo -n "==> Choose a password for MySQL and phpMyAdmin: "
 read PASSWORD
@@ -9,45 +9,14 @@ read FULLNAME
 echo -n "==> Enter your email address for Git configuration: "
 read EMAILADD
 
-# home directory
-cd ~
-
-# getdeb and playdeb
-echo "Downloading GetDeb and PlayDeb" &&
-wget http://archive.getdeb.net/install_deb/getdeb-repository_0.1-1~getdeb1_all.deb http://archive.getdeb.net/install_deb/playdeb_0.3-1~getdeb1_all.deb &&
-
-echo "Installing GetDeb" &&
-sudo dpkg -i getdeb-repository_0.1-1~getdeb1_all.deb &&
-
-echo "Installing PlayDeb" &&
-sudo dpkg -i playdeb_0.3-1~getdeb1_all.deb &&
-
-echo "Deleting Downloads" &&
-rm -f getdeb-repository_0.1-1~getdeb1_all.deb &&
-rm -f playdeb_0.3-1~getdeb1_all.deb
-
-# repositories
-sudo add-apt-repository -y ppa:webupd8team/sublime-text-2
-sudo add-apt-repository -y ppa:videolan/stable-daily
-sudo add-apt-repository -y ppa:otto-kesselgulasch/gimp
-sudo add-apt-repository -y ppa:gnome3-team/gnome3
-sudo add-apt-repository -y ppa:webupd8team/java
-sudo add-apt-repository -y ppa:webupd8team/y-ppa-manager
-
-# libdvdcss
-echo 'deb http://download.videolan.org/pub/debian/stable/ /' | sudo tee -a /etc/apt/sources.list.d/libdvdcss.list &&
-echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' | sudo tee -a /etc/apt/sources.list.d/libdvdcss.list &&
-wget -O - http://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add -
-
-# update packages
+# initial updates and utilities
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get dist-upgrade
+sudo apt-get install -qq aptitude wget curl cron build-essential software-properties-common
 
 # debconf utils
-sudo apt-get install -y debconf-utils
+sudo apt-get install -qq debconf-utils
 
-# parameters
+# password parameters
 echo "mysql-server mysql-server/root_password password $PASSWORD" | sudo debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $PASSWORD" | sudo debconf-set-selections
 echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
@@ -56,86 +25,46 @@ echo "phpmyadmin phpmyadmin/mysql/app-pass password $PASSWORD" | sudo debconf-se
 echo "phpmyadmin phpmyadmin/app-password-confirm password $PASSWORD" | sudo debconf-set-selections
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | sudo debconf-set-selections
 
-# general utilities
-sudo apt-get install -y aptitude
-sudo apt-get install -y wget
-sudo apt-get install -y curl
-sudo apt-get install -y cron
-sudo apt-get install -y bleachbit
-sudo apt-get install -y ntp ntpdate
+# repositories
+sudo add-apt-repository -y ppa:webupd8team/sublime-text-2
+sudo add-apt-repository -y ppa:ondrej/php5-5.6
+sudo add-apt-repository -y ppa:ondrej/mysql-5.6
+sudo add-apt-repository -y ppa:ondrej/apache2
+
+# update and upgrade
+sudo apt-get update
+sudo aptitude -y safe-upgrade
 
 # text editors
-sudo apt-get install -y vim
-sudo apt-get install -y sublime-text
+sudo apt-get install -qq vim sublime-text
 
 # version control
-sudo apt-get install -y git
-sudo apt-get install -y subversion
-
-# build essential
-sudo apt-get install -y build-essential
+sudo apt-get install -qq git
 
 # openssl
-sudo apt-get install -y openssl
-
-# python
-sudo apt-get install -y python-software-properties
-sudo apt-get install -y python
-
-# compilers
-sudo apt-get install -y gcc
-sudo apt-get install -y g++
-
-# c tools
-sudo apt-get install -y make
-sudo apt-get install -y valgrind
-sudo apt-get install -y libedit-dev
+sudo apt-get install -qq openssl
 
 # keychain
-sudo apt-get install -y keychain
-
-# synaptic
-sudo apt-get install -y synaptic
-
-# vlc
-sudo apt-get install -y vlc
-
-# gimp
-sudo apt-get install -y gimp gimp-data gimp-plugin-registry gimp-data-extras
-
-# ppa manager
-sudo apt-get install -y y-ppa-manager
-
-# flash
-sudo apt-get install -y flashplugin-installer
-
-# archives
-sudo apt-get install -y unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller
-
-# codecs
-sudo apt-get install -y libxine1-ffmpeg mencoder flac faac faad sox ffmpeg2theora libmpeg2-4 uudeview libmpeg3-1 mpeg3-utils mpegdemux liba52-dev mpeg2dec vorbis-tools id3v2 mpg321 mpg123 libflac++6 totem-mozilla icedax lame libmad0 libjpeg-progs libdvdcss2 libdvdread4 libdvdnav4 libswscale-extra-2 ubuntu-restricted-extras
-
-# wallpapers
-sudo apt-get install -y ubuntu-wallpapers*
-
-# calibre
-sudo -v && wget -nv -O- https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main()"
+sudo apt-get install -qq keychain
 
 # chrome
 if [[ $(getconf LONG_BIT) = "64" ]]
 then
-	echo "64bit Detected" &&
-	echo "Installing Google Chrome" &&
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
-	sudo dpkg -i google-chrome-stable_current_amd64.deb &&
-	rm -f google-chrome-stable_current_amd64.deb
+    echo "64bit Detected" &&
+    echo "Installing Google Chrome" &&
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+    sudo dpkg -i google-chrome-stable_current_amd64.deb &&
+    rm -f google-chrome-stable_current_amd64.deb
 else
-	echo "32bit Detected" &&
-	echo "Installing Google Chrome" &&
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb &&
-	sudo dpkg -i google-chrome-stable_current_i386.deb &&
-	rm -f google-chrome-stable_current_i386.deb
+    echo "32bit Detected" &&
+    echo "Installing Google Chrome" &&
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb &&
+    sudo dpkg -i google-chrome-stable_current_i386.deb &&
+    rm -f google-chrome-stable_current_i386.deb
 fi
+
+# fix missing dependencies
+sudo apt-get -f install
 
 # git general config
 git config --global user.name "$FULLNAME"
@@ -153,7 +82,7 @@ rm SourceCodePro_FontsOnly-1.017.zip
 fc-cache -f -v
 
 # apache
-sudo apt-get install -y apache2
+sudo apt-get install -qq apache2
 
 # Update apache2.conf with backup
 sudo cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.bak
@@ -171,13 +100,13 @@ sudo a2enmod include
 sudo a2enmod ssl
 
 # php
-sudo apt-get install -y php5 libapache2-mod-php5 php5-dev
+sudo apt-get install -qq php5 libapache2-mod-php5 php5-dev
 
 # mysql
 sudo apt-get install -y -q mysql-server libapache2-mod-auth-mysql php5-mysql
 
 # sqlite
-sudo apt-get install -y sqlite3
+sudo apt-get install -qq sqlite3
 
 # php.ini settings for development
 sudo sed -i "s/^error_reporting.*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
@@ -191,7 +120,7 @@ sudo sed -i "s#^;include_path = \"\.:/usr/share/php\"#include_path = \".:/usr/sh
 sudo sed -i "s#^;include_path = \"\.:/usr/share/php\"#include_path = \".:/usr/share/php\"#" /etc/php5/cli/php.ini
 
 # php extensions
-sudo apt-get install -y php5-curl php5-intl php5-xdebug php5-xmlrpc php5-xsl php5-sqlite php5-imagick php5-json php5-apcu php5-mcrypt
+sudo apt-get install -qq php5-curl php5-intl php5-xdebug php5-xmlrpc php5-xsl php5-sqlite php5-imagick php5-json php5-apcu php5-mcrypt
 
 # phpmyadmin
 sudo php5enmod mcrypt
@@ -203,7 +132,7 @@ sudo mv composer.phar /usr/local/bin/composer
 
 # ssl certificates
 sudo mkdir -p /etc/apache2/ssl/000_default
-sudo openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout /etc/apache2/ssl/000_default/apache.key -out /etc/apache2/ssl/000_default/apache.crt
+sudo openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout /etc/apache2/ssl/000_default/apache.key -out /etc/apache2/ssl/000_default/apache.crt -subj "/C=US/ST=/L=/O=/OU=/CN=localhost/emailAddress="
 
 # Update 000-default.conf with backup
 sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.bak
@@ -249,8 +178,19 @@ cat /etc/apache2/sites-available/000-default.conf.bak | sed '
 cd ~
 sudo service apache2 restart
 
+# create bin, projects, and logs directories
+mkdir ~/bin
+mkdir ~/Projects
+mkdir ~/Logs
+
+# download create-vhost and remove-vhost scripts
+cd ~/bin
+wget "https://raw.githubusercontent.com/jrnickell/bash/master/bin/create-vhost" -O create-project
+wget "https://raw.githubusercontent.com/jrnickell/bash/master/bin/remove-vhost" -O remove-project
+cd ~
+
 # node install
-curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | bash
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 source ~/.nvm/nvm.sh
 echo 'export PATH="$PATH:$HOME/.nvm/bin"' | tee -a ~/.bashrc
 echo 'source ~/.nvm/nvm.sh' | tee -a ~/.bashrc
@@ -262,8 +202,7 @@ nvm alias default 0.10
 npm install -g bower
 
 # ruby install
-# following this guide:
-# http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you/
+gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 curl -L get.rvm.io | bash -s stable
 
 # source rvm script and add to .bashrc
@@ -272,16 +211,16 @@ echo 'source ~/.rvm/scripts/rvm' | tee -a ~/.bashrc
 
 # install requirements
 rvm requirements
-sudo apt-get install -y libmysqlclient-dev
-sudo apt-get install -y libpq-dev
+sudo apt-get install -qq libmysqlclient-dev
+sudo apt-get install -qq libpq-dev
 
 # add autoupdate flag
 echo rvm_autoupdate_flag=2 >> ~/.rvmrc
 
 # ruby
-rvm install 2.1.3
-rvm use 2.1.3
-rvm --default use 2.1.3
+rvm install 2.1.5
+rvm use 2.1.5
+rvm --default use 2.1.5
 
 # rails
 gem install rails
@@ -290,8 +229,8 @@ gem install rails
 gem install compass
 
 # java
-sudo apt-get install -y openjdk-7-jre
-sudo apt-get install -y openjdk-7-jdk
+sudo apt-get install -qq openjdk-7-jre
+sudo apt-get install -qq openjdk-7-jdk
 
 # cleanup
 cd ~
