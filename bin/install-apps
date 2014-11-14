@@ -217,7 +217,7 @@ rm ruby-install-0.5.0.tar.gz
 ruby-install -V
 
 # ruby
-ruby-install ruby 2.1.5
+ruby-install ruby 2.1.5 --src-dir ~/.ruby-src --cleanup
 
 # chruby
 wget -O chruby-0.3.8.tar.gz https://github.com/postmodern/chruby/archive/v0.3.8.tar.gz
