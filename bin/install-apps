@@ -200,12 +200,18 @@ nvm alias default 0.10
 # bower
 npm install -g bower
 
+# programs directory
+mkdir ~/Programs
+cd ~/Programs
+
 # ruby install
 # http://ryanbigg.com/2014/10/ubuntu-ruby-ruby-install-chruby-and-you/
 wget -O ruby-install-0.5.0.tar.gz https://github.com/postmodern/ruby-install/archive/v0.5.0.tar.gz
 tar -xzvf ruby-install-0.5.0.tar.gz
 cd ruby-install-0.5.0/
 sudo make install
+cd ~/Programs
+rm ruby-install-0.5.0.tar.gz
 
 # check ruby-install
 ruby-install -V
@@ -218,6 +224,9 @@ wget -O chruby-0.3.8.tar.gz https://github.com/postmodern/chruby/archive/v0.3.8.
 tar -xzvf chruby-0.3.8.tar.gz
 cd chruby-0.3.8/
 sudo make install
+cd ~/Programs
+rm chruby-0.3.8.tar.gz
+cd ~
 
 # add chruby to .bashrc
 echo 'source /usr/local/share/chruby/chruby.sh' | tee -a ~/.bashrc
