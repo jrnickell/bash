@@ -85,7 +85,7 @@ clear
 echo "Setting up files for $project"
 
 sudo mkdir -p /etc/apache2/ssl/$project
-sudo openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout /etc/apache2/ssl/$project/apache.key -out /etc/apache2/ssl/$project/apache.crt -subject "/C=US/ST=/L=/O=/OU=/CN=$dname/emailAddress="
+sudo openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout /etc/apache2/ssl/$project/apache.key -out /etc/apache2/ssl/$project/apache.crt -subject "/C=US/ST=''/L=''/O=''/OU=''/CN=$dname/emailAddress=''"
 
 mkdir -vp /home/$USER/Projects/$project/$webroot
 mkdir -vp /home/$USER/Logs/$project
