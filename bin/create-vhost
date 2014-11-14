@@ -104,7 +104,6 @@ echo "created /etc/apache2/sites-available/$project.conf"
 sudo a2ensite $project
 
 sudo echo "127.0.0.1      $dname" | sudo tee -a /etc/hosts
-sudo echo "127.0.0.1      www.$dname" | sudo tee -a /etc/hosts
 
 sudo service apache2 restart
 
