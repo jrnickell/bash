@@ -132,7 +132,7 @@ sudo mv composer.phar /usr/local/bin/composer
 
 # ssl certificates
 sudo mkdir -p /etc/apache2/ssl/000_default
-sudo openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout /etc/apache2/ssl/000_default/apache.key -out /etc/apache2/ssl/000_default/apache.crt -subj "/C=US/ST=/L=/O=/OU=/CN=localhost/emailAddress="
+sudo openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout /etc/apache2/ssl/000_default/apache.key -out /etc/apache2/ssl/000_default/apache.crt -subj "/C=US/ST=''/L=''/O=''/OU=''/CN=localhost/emailAddress=''"
 
 # Update 000-default.conf with backup
 sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.bak
