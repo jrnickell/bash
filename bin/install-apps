@@ -231,10 +231,13 @@ cd ~
 # add chruby to .bashrc
 echo 'source /usr/local/share/chruby/chruby.sh' | tee -a ~/.bashrc
 echo 'source /usr/local/share/chruby/auto.sh' | tee -a ~/.bashrc
-. ~/.bashrc
 
 # set ruby version
 echo 'ruby-2.1.5' | tee ~/.ruby-version
+
+# source chruby
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
 
 # install dependencies
 sudo apt-get install -y libmysqlclient-dev libpq-dev libsqlite3-dev
