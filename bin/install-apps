@@ -70,12 +70,12 @@ git config --global color.ui true
 git config --global push.default simple
 
 # source code pro
-wget http://downloads.sourceforge.net/project/sourcecodepro.adobe/SourceCodePro_FontsOnly-1.017.zip
-unzip SourceCodePro_FontsOnly-1.017.zip
+wget https://github.com/adobe-fonts/source-code-pro/archive/1.017R.zip
+unzip 1.017R.zip
 mkdir -p ~/.fonts
-cp SourceCodePro_FontsOnly-1.017/OTF/*.otf ~/.fonts/
-rm -rf SourceCodePro_FontsOnly-1.017
-rm SourceCodePro_FontsOnly-1.017.zip
+cp source-code-pro-1.017R/OTF/*.otf ~/.fonts/
+rm -rf source-code-pro-1.017R
+rm 1.017R.zip
 fc-cache -f -v
 
 # apache
