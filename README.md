@@ -8,8 +8,8 @@ This scripts make permanent changes to your operating system. Use them at your o
 
 Setup SSH keys, then:
 
-  wget -qO- https://raw.githubusercontent.com/jrnickell/bash/master/bin/install-base | bash
+    wget -qO- https://raw.githubusercontent.com/jrnickell/bash/master/bin/install-base | bash
 
 After reboot:
 
-  wget -qO- https://raw.githubusercontent.com/jrnickell/bash/master/bin/install-devtools | bash
+    wget -qO- https://raw.githubusercontent.com/jrnickell/bash/master/bin/install-devtools | bash
