@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+# change to home directory
+cd ~
+
+# initial updates and utilities
+sudo apt-get update
+sudo apt-get install -qq aptitude cron build-essential software-properties-common
+sudo apt-get install -qq dkms linux-headers-$(uname -r) debconf-utils
+sudo apt-get install -qq curl wget ntp unzip ack-grep keychain
+
+# repositories
+sudo add-apt-repository -y ppa:stebbins/handbrake-releases
+sudo add-apt-repository -y ppa:webupd8team/sublime-text-3
+sudo add-apt-repository -y ppa:ondrej/php5-5.6
+
+# update and upgrade
+sudo apt-get update
+sudo aptitude -y safe-upgrade
+
+# play dvds
+sudo apt-get install -qq libdvdread4
+sudo /usr/share/doc/libdvdread4/install-css.sh
+
+# text editors
+sudo apt-get install -qq vim sublime-text-installer
+
+# pdf reader
+sudo apt-get install -qq qpdfview
+
+# vlc
+sudo apt-get install -qq vlc browser-plugin-vlc
+
+# handbrake
+sudo apt-get install -qq handbrake-gtk
+
+# ftp
+sudo apt-get install -qq filezilla
+
+# version control
+sudo apt-get install -qq git git-flow
+
+# chrome
+if [[ $(getconf LONG_BIT) = "64" ]]
+then
+    echo "64bit Detected" &&
+    echo "Installing Google Chrome" &&
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+    sudo dpkg --force-depends -i google-chrome-stable_current_amd64.deb &&
+    rm -f google-chrome-stable_current_amd64.deb
+else
+    echo "32bit Detected" &&
+    echo "Installing Google Chrome" &&
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb &&
+    sudo dpkg --force-depends -i google-chrome-stable_current_i386.deb &&
+    rm -f google-chrome-stable_current_i386.deb
+fi
+
+# source code pro
+wget https://github.com/adobe-fonts/source-code-pro/archive/1.017R.zip
+unzip 1.017R.zip
+mkdir -p ~/.fonts
+cp source-code-pro-1.017R/OTF/*.otf ~/.fonts/
+rm -rf source-code-pro-1.017R
+rm 1.017R.zip
+fc-cache -f -v
+
+# wallpapers
+sudo apt-get install -qq ubuntu-wallpapers-*
+
+# nvm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.3/install.sh | bash
+source ~/.nvm/nvm.sh
+echo '' | tee -a ~/.bashrc
+echo 'export PATH="$PATH:$HOME/.nvm/bin"' | tee -a ~/.bashrc
+echo 'source ~/.nvm/nvm.sh' | tee -a ~/.bashrc
+nvm install stable
+nvm use stable
+nvm alias default stable
+
+# php cli
+sudo apt-get install -qq php5-common php5-cli php5-curl php5-intl php5-json php5-mcrypt php5-readline php5-xdebug
+sudo php5enmod mcrypt
+
+# composer
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+
+# dotfiles
+cd ~
+git clone git@github.com:jrnickell/dotfiles.git ~/.dotfiles
+~/.dotfiles/update
+
+# cleanup
+cd ~
+echo "Cleaning Up" &&
+sudo apt-get -f -y install &&
+sudo apt-get autoremove &&
+sudo apt-get -y autoclean &&
+sudo apt-get -y clean
+
+# reboot prompt
+echo ">>> Please reboot the computer now"
