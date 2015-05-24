@@ -32,3 +32,23 @@ vagrant plugin install vagrant-vbguest
 
 # ansible
 sudo apt-get install -qq ansible
+
+# ansible roles
+sudo ansible-galaxy install novuso.apache
+sudo ansible-galaxy install novuso.base
+sudo ansible-galaxy install novuso.composer
+sudo ansible-galaxy install novuso.firewall
+sudo ansible-galaxy install novuso.git
+sudo ansible-galaxy install novuso.mkdocs
+sudo ansible-galaxy install novuso.mysql
+sudo ansible-galaxy install novuso.nginx
+sudo ansible-galaxy install novuso.nodejs
+sudo ansible-galaxy install novuso.openssl
+sudo ansible-galaxy install novuso.php-ext
+sudo ansible-galaxy install novuso.php-cli
+sudo ansible-galaxy install novuso.php-fpm
+sudo ansible-galaxy install novuso.phpmyadmin
+sudo ansible-galaxy install novuso.swap
+sudo ansible-galaxy install novuso.time
+sudo ansible-galaxy install novuso.upgrade
+sudo ansible-galaxy install novuso.users
