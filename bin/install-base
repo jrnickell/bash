@@ -84,9 +84,6 @@ sudo php5enmod mcrypt
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
-# vundle
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
 # dotfiles
 cd ~
 git clone git@github.com:jrnickell/dotfiles.git ~/.dotfiles
