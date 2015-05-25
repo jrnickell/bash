@@ -58,6 +58,8 @@ else
     rm -f google-chrome-stable_current_i386.deb
 fi
 
+sudo apt-get -f -y install
+
 # source code pro
 wget https://github.com/adobe-fonts/source-code-pro/archive/1.017R.zip
 unzip 1.017R.zip
