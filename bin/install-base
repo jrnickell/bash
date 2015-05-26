@@ -85,15 +85,13 @@ curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
 # dotfiles
-cd ~
 git clone git@github.com:jrnickell/dotfiles.git ~/.dotfiles
-~/.dotfiles/update
+bash ~/.dotfiles/update
 
 # wallpapers
 sudo apt-get install -qq ubuntu-wallpapers-*
 
 # cleanup
-cd ~
 echo "Cleaning Up" &&
 sudo apt-get -f -y install &&
 sudo apt-get autoremove &&
