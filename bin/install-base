@@ -92,7 +92,7 @@ cd ~/.ruby
 rm ruby-install-0.5.0.tar.gz
 rm chruby-0.3.9.tar.gz
 cd ~
-ruby-install ruby 2.2.2
+ruby-install ruby 2.2.2 --src-dir ~/.ruby/src --cleanup
 echo "ruby-2.2.2" > ~/.ruby-version
 
 # php
