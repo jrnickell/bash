@@ -48,6 +48,7 @@ sudo ansible-galaxy install novuso.php-ext
 sudo ansible-galaxy install novuso.php-cli
 sudo ansible-galaxy install novuso.php-fpm
 sudo ansible-galaxy install novuso.phpmyadmin
+sudo ansible-galaxy install novuso.ruby
 sudo ansible-galaxy install novuso.swap
 sudo ansible-galaxy install novuso.time
 sudo ansible-galaxy install novuso.upgrade
