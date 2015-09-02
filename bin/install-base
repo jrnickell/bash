@@ -93,8 +93,8 @@ cd ~/.ruby
 rm ruby-install-0.5.0.tar.gz
 rm chruby-0.3.9.tar.gz
 cd ~
-ruby-install ruby 2.2.2 --src-dir ~/.ruby/src --cleanup
-echo "ruby-2.2.2" > ~/.ruby-version
+ruby-install ruby 2.2.3 --src-dir ~/.ruby/src --cleanup
+echo "ruby-2.2.3" > ~/.ruby-version
 
 # php
 sudo apt-get install -qq php5-common php5-cli php5-curl php5-intl php5-json php5-mcrypt php5-readline php5-xdebug
