@@ -14,17 +14,17 @@ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key a
 sudo apt-get update
 
 # virtualbox
-sudo apt-get install -qq virtualbox-4.3
+sudo apt-get install -qq virtualbox-5.0
 
 # virtualbox extension pack
-wget http://download.virtualbox.org/virtualbox/4.3.28/Oracle_VM_VirtualBox_Extension_Pack-4.3.28-100309.vbox-extpack &&
-VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-4.3.28-100309.vbox-extpack &&
-rm -f Oracle_VM_VirtualBox_Extension_Pack-4.3.28-100309.vbox-extpack
+wget http://download.virtualbox.org/virtualbox/5.0.2/Oracle_VM_VirtualBox_Extension_Pack-5.0.2-102096.vbox-extpack &&
+VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-5.0.2-102096.vbox-extpack &&
+rm -f Oracle_VM_VirtualBox_Extension_Pack-5.0.2-102096.vbox-extpack
 
 # vagrant
-wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb &&
-sudo dpkg --force-depends -i vagrant_1.7.2_x86_64.deb &&
-rm -f vagrant_1.7.2_x86_64.deb
+wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb &&
+sudo dpkg --force-depends -i vagrant_1.7.4_x86_64.deb &&
+rm -f vagrant_1.7.4_x86_64.deb
 
 # vagrant plugins
 vagrant plugin install vagrant-hostmanager
