@@ -17,9 +17,9 @@ sudo apt-get update
 sudo apt-get install -qq virtualbox-5.0
 
 # virtualbox extension pack
-wget http://download.virtualbox.org/virtualbox/5.0.2/Oracle_VM_VirtualBox_Extension_Pack-5.0.2-102096.vbox-extpack &&
-VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-5.0.2-102096.vbox-extpack &&
-rm -f Oracle_VM_VirtualBox_Extension_Pack-5.0.2-102096.vbox-extpack
+wget http://download.virtualbox.org/virtualbox/5.0.4/Oracle_VM_VirtualBox_Extension_Pack-5.0.4-102546.vbox-extpack &&
+VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-5.0.4-102546.vbox-extpack &&
+rm -f Oracle_VM_VirtualBox_Extension_Pack-5.0.4-102546.vbox-extpack
 
 # vagrant
 wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb &&
