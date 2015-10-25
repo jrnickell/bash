@@ -10,6 +10,12 @@ echo "deb http://download.virtualbox.org/virtualbox/debian vivid contrib" | sudo
 echo "" | sudo tee -a /etc/apt/sources.list
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
 
+# add rabbitmq to sources.list
+echo "# rabbitmq" | sudo tee -a /etc/apt/sources.list
+echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
+echo "" | sudo tee -a /etc/apt/sources.list
+wget -q https://www.rabbitmq.com/rabbitmq-signing-key-public.asc -O- | sudo apt-key add -
+
 # update
 sudo apt-get update
 
@@ -20,6 +26,9 @@ sudo apt-get install -qq virtualbox-5.0
 wget http://download.virtualbox.org/virtualbox/5.0.4/Oracle_VM_VirtualBox_Extension_Pack-5.0.4-102546.vbox-extpack &&
 VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-5.0.4-102546.vbox-extpack &&
 rm -f Oracle_VM_VirtualBox_Extension_Pack-5.0.4-102546.vbox-extpack
+
+# rabbitmq
+sudo apt-get install -qq rabbitmq-server
 
 # vagrant
 wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb &&
