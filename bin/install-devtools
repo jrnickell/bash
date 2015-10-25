@@ -19,6 +19,9 @@ wget -q https://www.rabbitmq.com/rabbitmq-signing-key-public.asc -O- | sudo apt-
 # update
 sudo apt-get update
 
+# supervisor
+sudo apt-get install -qq supervisor
+
 # virtualbox
 sudo apt-get install -qq virtualbox-5.0
 
